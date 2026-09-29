@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Petualangan Matematika Kelas 2A</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #f0f9ff;
+            background-image: radial-gradient(#bae6fd 1.5px, transparent 1.5px), radial-gradient(#bae6fd 1.5px, #f0f9ff 1.5px);
+            background-size: 60px 60px;
+            background-position: 0 0, 30px 30px;
+        }
+
+        h1, h2, h3, .font-fun {
+            font-family: 'Fredoka', cursive;
+        }
+
+        .btn-bounce {
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .btn-bounce:hover {
+            transform: scale(1.05) translateY(-3px);
+        }
+        .btn-bounce:active {
+            transform: scale(0.98) translateY(1px);
+        }
+
+        .card-3d {
+            box-shadow: 0 10px 0 0 rgba(0, 0, 0, 0.08), 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .option-btn {
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 0 0 #cbd5e1;
+        }
+        .option-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 0 #cbd5e1;
+        }
+        .option-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 1px 0 0 #cbd5e1;
+        }
+
+        @keyframes pulse-subtle {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+
+        .animate-pulse-subtle {
+            animation: pulse-subtle 2s infinite ease-in-out;
+        }
+
+        /* Certificate Styling */
+        .certificate-border {
+            border: 12px double #0284c7;
+            background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #38bdf8;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-slate-800 flex flex-col justify-between selection:bg-amber-300">
+
+    <!-- Header App Bar -->
+    <header class="bg-white/90 backdrop-blur border-b-4 border-amber-400 sticky top-0 z-40 px-4 py-3 shadow-md">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="bg-amber-400 text-amber-900 w-10 h-10 rounded-2xl flex items-center justify-center font-black text-xl shadow">
+                    🎮
+                </div>
+                <div>
+                    <h1 class="text-xl font-extrabold text-sky-600 leading-tight">PETUALANGAN MATEMATIKA</h1>
+                    <p class="text-xs text-slate-500 font-semibold">Kelas 2A SD/MI</p>
+                </div>
+            </div>
+            
+            <div id="headerScoreBox" class="hidden flex items-center gap-2 bg-amber-100 border-2 border-amber-300 px-3 py-1.5 rounded-full">
+                <span class="text-amber-600 font-black text-lg">⭐</span>
+                <span id="headerScore" class="font-extrabold text-amber-900">0</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-4xl w-full mx-auto p-4 my-auto flex-grow flex items-center justify-center">
+
+        <!-- 1. HALAMAN AWAL (WELCOME SCREEN) -->
+        <section id="screenWelcome" class="w-full max-w-2xl bg-white rounded-3xl p-6 md:p-8 card-3d border-4 border-sky-300 text-center relative overflow-hidden">
+            <div class="absolute -right-8 -top-8 w-24 h-24 bg-yellow-200 rounded-full opacity-50 blur-lg"></div>
+            <div class="absolute -left-8 -bottom-8 w-24 h-24 bg-sky-200 rounded-full opacity-50 blur-lg"></div>
+
+            <div class="inline-block bg-sky-100 text-sky-700 px-4 py-1.5 rounded-full font-bold text-sm mb-3">
+                ✨ SD/MI Kelas 2A ✨
+            </div>
+
+            <h2 class="text-3xl md:text-4xl font-extrabold text-sky-600 mb-2">🎮 PETUALANGAN MATEMATIKA</h2>
+            <p class="text-slate-600 font-medium mb-6">Ayo belajar materi dan bermain sambil mengasah kemampuan!</p>
+
+            <!-- Decorative Illustrations Grid -->
+            <div class="flex justify-center items-center gap-3 md:gap-6 my-6 text-2xl md:text-4xl bg-sky-50 p-4 rounded-2xl border-2 border-sky-100">
+                <span class="p-2 bg-white rounded-xl shadow-sm">🔢</span>
+                <span class="p-2 bg-white rounded-xl shadow-sm">✏️</span>
+                <span class="p-2 bg-white rounded-xl shadow-sm">📚</span>
+                <span class="p-2 bg-white rounded-xl shadow-sm">🔺</span>
+                <span class="p-2 bg-white rounded-xl shadow-sm">1️⃣2️⃣3️⃣</span>
+                <span class="p-2 bg-white rounded-xl shadow-sm">🎒</span>
+            </div>
+
+            <!-- Input Nama -->
+            <div class="bg-amber-50 border-2 border-amber-200 p-5 rounded-2xl mb-6">
+                <label for="playerNameInput" class="block font-bold text-slate-700 mb-2 text-lg">
+                    👤 Masukkan Nama Kamu:
+                </label>
+                <input type="text" id="playerNameInput" placeholder="Contoh: Budi / Ani" 
+                       class="w-full text-center px-4 py-3 rounded-xl border-2 border-amber-300 focus:outline-none focus:border-amber-500 font-bold text-xl text-slate-800 shadow-inner">
+                <p id="nameError" class="text-red-500 text-sm mt-2 hidden font-semibold">⚠️ Tolong isi nama kamu dulu ya!</p>
+            </div>
+
+            <!-- Greeting dynamic message box -->
+            <div id="greetingBox" class="hidden mb-6 p-4 bg-emerald-100 border-2 border-emerald-300 rounded-2xl text-emerald-800 font-bold text-lg animate-pulse-subtle">
+                <span id="greetingText"></span>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-3">
+                <button id="btnStudyMaterial" onclick="proceedToMaterials()" 
+                        class="flex-1 py-4 bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-xl rounded-2xl shadow-lg border-b-4 border-amber-700 btn-bounce flex items-center justify-center gap-2">
+                    <span>📖 BELAJAR MATERI</span>
+                </button>
+                <button id="btnStartGame" onclick="proceedToInstructions()" 
+                        class="flex-1 py-4 bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold text-xl rounded-2xl shadow-lg border-b-4 border-emerald-700 btn-bounce flex items-center justify-center gap-2">
+                    <span>🚀 MULAI KUIS (GAME)</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- 1.5 HALAMAN RINGKASAN MATERI (LEARNING MATERIAL SCREEN) -->
+        <section id="screenMaterial" class="hidden w-full max-w-3xl bg-white rounded-3xl p-5 md:p-8 card-3d border-4 border-amber-300">
+            <div class="flex items-center justify-between border-b-2 border-slate-100 pb-3 mb-4">
+                <div class="flex items-center gap-3">
+                    <div class="bg-amber-400 text-white p-3 rounded-2xl text-2xl shadow">📖</div>
+                    <div>
+                        <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800">MATERI LESSON KELAS 2A</h2>
+                        <p class="text-slate-500 text-xs md:text-sm">Pelajari rangkuman bab sebelum menjawab kuis!</p>
+                    </div>
+                </div>
+                <button onclick="showScreen('screenWelcome')" class="text-sm font-bold bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-xl text-slate-600">
+                    ⬅️ Kembali
+                </button>
+            </div>
+
+            <!-- Tab Buttons for Chapters -->
+            <div class="flex overflow-x-auto gap-2 mb-6 pb-2 border-b border-slate-200 scrollbar-none">
+                <button onclick="switchMaterialTab(1)" id="tabBab1" class="material-tab px-4 py-2 rounded-xl font-bold text-sm whitespace-nowrap bg-sky-500 text-white shadow">
+                    Bab 1: Membilang
+                </button>
+                <button onclick="switchMaterialTab(2)" id="tabBab2" class="material-tab px-4 py-2 rounded-xl font-bold text-sm whitespace-nowrap bg-slate-100 text-slate-600 hover:bg-slate-200">
+                    Bab 2: Penjumlahan/Pengurangan
+                </button>
+                <button onclick="switchMaterialTab(3)" id="tabBab3" class="material-tab px-4 py-2 rounded-xl font-bold text-sm whitespace-nowrap bg-slate-100 text-slate-600 hover:bg-slate-200">
+                    Bab 3: Bentuk Bangun
+                </button>
+                <button onclick="switchMaterialTab(4)" id="tabBab4" class="material-tab px-4 py-2 rounded-xl font-bold text-sm whitespace-nowrap bg-slate-100 text-slate-600 hover:bg-slate-200">
+                    Bab 4: Posisi & Pola
+                </button>
+            </div>
+
+            <!-- Material Tab Contents -->
+            <div id="materialContent" class="space-y-4 text-slate-700 min-h-[280px]">
+                <!-- Dynamic Material JS Inject -->
+            </div>
+
+            <!-- Bottom Action Navigation -->
+            <div class="mt-8 pt-4 border-t border-slate-100 flex flex-col sm:flex-row justify-between items-center gap-3">
+                <button onclick="showScreen('screenWelcome')" class="w-full sm:w-auto px-6 py-3 bg-slate-200 hover:bg-slate-300 font-bold rounded-xl text-slate-700">
+                    🏠 Kembali ke Menu Utama
+                </button>
+                <button onclick="proceedToInstructions()" class="w-full sm:w-auto px-8 py-3.5 bg-emerald-500 hover:bg-emerald-600 text-white font-black text-lg rounded-xl shadow-lg border-b-4 border-emerald-700 btn-bounce flex items-center justify-center gap-2">
+                    <span>🎮 SIAP! MULAI KUIS</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- 2. HALAMAN PETUNJUK (INSTRUCTIONS SCREEN) -->
+        <section id="screenInstructions" class="hidden w-full max-w-2xl bg-white rounded-3xl p-6 md:p-8 card-3d border-4 border-amber-300">
+            <div class="flex items-center gap-3 mb-4 border-b-2 border-slate-100 pb-3">
+                <div class="bg-amber-400 text-white p-3 rounded-2xl text-2xl shadow">📚</div>
+                <div>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800">CARA BERMAIN</h2>
+                    <p class="text-slate-500 text-sm">Petunjuk Petualangan Matematika</p>
+                </div>
+            </div>
+
+            <ol class="space-y-3 my-6 text-slate-700 font-medium">
+                <li class="flex items-start gap-3 p-2 rounded-xl bg-slate-50">
+                    <span class="bg-amber-400 text-amber-900 font-black rounded-lg w-7 h-7 flex items-center justify-center flex-shrink-0">1</span>
+                    <span>Pastikan namamu sudah benar.</span>
+                </li>
+                <li class="flex items-start gap-3 p-2 rounded-xl bg-slate-50">
+                    <span class="bg-amber-400 text-amber-900 font-black rounded-lg w-7 h-7 flex items-center justify-center flex-shrink-0">2</span>
+                    <span>Baca soal dengan teliti dan teliti setiap jawabannya.</span>
+                </li>
+                <li class="flex items-start gap-3 p-2 rounded-xl bg-slate-50">
+                    <span class="bg-amber-400 text-amber-900 font-black rounded-lg w-7 h-7 flex items-center justify-center flex-shrink-0">3</span>
+                    <span>Hitung dengan hati-hati sebelum memilih.</span>
+                </li>
+                <li class="flex items-start gap-3 p-2 rounded-xl bg-slate-50">
+                    <span class="bg-amber-400 text-amber-900 font-black rounded-lg w-7 h-7 flex items-center justify-center flex-shrink-0">4</span>
+                    <span>Pilih satu jawaban yang paling tepat (A, B, C, atau D).</span>
+                </li>
+                <li class="flex items-start gap-3 p-2 rounded-xl bg-slate-50">
+                    <span class="bg-amber-400 text-amber-900 font-black rounded-lg w-7 h-7 flex items-center justify-center flex-shrink-0">5</span>
+                    <span>Kamu akan mendapat pembahasan dari setiap soal.</span>
+                </li>
+                <li class="flex items-start gap-3 p-2 rounded-xl bg-slate-50">
+                    <span class="bg-amber-400 text-amber-900 font-black rounded-lg w-7 h-7 flex items-center justify-center flex-shrink-0">6</span>
+                    <span>Dapatkan 20 poin untuk setiap jawaban benar (Total 50 Soal)!</span>
+                </li>
+            </ol>
+
+            <button onclick="startGameplay()" 
+                    class="w-full py-4 bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-2xl rounded-2xl shadow-lg border-b-4 border-amber-700 btn-bounce flex items-center justify-center gap-2">
+                <span>▶ MULAI PETUALANGAN</span>
+            </button>
+        </section>
+
+        <!-- 3. HALAMAN GAMEPLAY (QUIZ SCREEN) -->
+        <section id="screenQuiz" class="hidden w-full max-w-3xl bg-white rounded-3xl p-5 md:p-8 card-3d border-4 border-sky-300">
+            <!-- Progress Header -->
+            <div class="mb-6">
+                <div class="flex justify-between items-center mb-2 font-extrabold text-sm md:text-base text-slate-600">
+                    <span class="bg-sky-100 text-sky-800 px-3 py-1 rounded-full" id="quizBabBadge">Bab 1</span>
+                    <span id="quizProgressText" class="text-slate-700">Soal 1 dari 50</span>
+                    <span id="quizScoreText" class="text-amber-600">Skor: 0</span>
+                </div>
+                <!-- Progress Bar -->
+                <div class="w-full bg-slate-100 h-4 rounded-full overflow-hidden p-0.5 border border-slate-200">
+                    <div id="quizProgressBar" class="bg-gradient-to-r from-sky-400 to-emerald-400 h-full rounded-full transition-all duration-300" style="width: 2%;"></div>
+                </div>
+            </div>
+
+            <!-- Question Card -->
+            <div class="bg-sky-50 border-2 border-sky-200 p-5 md:p-6 rounded-2xl mb-6">
+                <!-- Visual Illustration Space for Shape/Pattern/Items -->
+                <div id="questionVisual" class="mb-4 flex justify-center items-center min-h-[80px] bg-white rounded-xl p-3 border border-sky-100">
+                    <!-- Dynamic Graphic standard JS inject -->
+                </div>
+
+                <h3 id="questionText" class="text-lg md:text-xl font-bold text-slate-800 leading-relaxed text-center">
+                    Loading soal...
+                </h3>
+            </div>
+
+            <!-- Options Grid -->
+            <div id="optionsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+                <!-- Dynamic Options Buttons -->
+            </div>
+
+            <!-- Feedback / Explanation Modal Area -->
+            <div id="feedbackBox" class="hidden border-4 rounded-2xl p-4 md:p-5 mb-6 text-center animate-bounce-short">
+                <div id="feedbackBadge" class="inline-block text-white font-extrabold px-4 py-1.5 rounded-full text-lg mb-2"></div>
+                <h4 id="feedbackTitle" class="text-xl font-black mb-1"></h4>
+                <p id="feedbackExplanation" class="text-slate-700 font-semibold text-base mb-3"></p>
+                
+                <button id="btnNextQuestion" onclick="nextQuestion()" 
+                        class="w-full md:w-auto px-8 py-3 bg-sky-500 hover:bg-sky-600 text-white font-extrabold text-lg rounded-xl shadow-md border-b-4 border-sky-700 btn-bounce mx-auto flex items-center justify-center gap-2">
+                    <span>➡ SOAL BERIKUTNYA</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- 4. HALAMAN HASIL (RESULTS SCREEN) -->
+        <section id="screenResults" class="hidden w-full max-w-2xl bg-white rounded-3xl p-6 md:p-8 card-3d border-4 border-emerald-400 text-center">
+            <div class="text-5xl mb-3">🎉</div>
+            <h2 class="text-3xl md:text-4xl font-black text-slate-800 mb-1">GAME SELESAI!</h2>
+            <p id="resultPlayerName" class="text-sky-600 font-bold text-xl mb-4">Hebat, [Nama]!</p>
+
+            <!-- Score Summary Card -->
+            <div class="bg-gradient-to-br from-amber-50 to-orange-50 border-2 border-amber-300 p-6 rounded-3xl mb-6 shadow-sm">
+                <p class="text-slate-600 font-bold text-sm uppercase tracking-wider mb-1">Total Skor Kamu</p>
+                <div class="text-5xl md:text-6xl font-black text-amber-600 mb-2" id="resultFinalScore">0 / 1000</div>
+                
+                <div id="resultCategoryBadge" class="inline-block bg-amber-400 text-amber-950 px-6 py-2 rounded-full font-black text-lg md:text-xl shadow mb-4">
+                    🌟 LUAR BIASA!
+                </div>
+                <p id="resultCategoryMessage" class="text-slate-700 font-semibold max-w-md mx-auto">
+                    Kamu sangat baik dalam belajar Matematika. Hebat!
+                </p>
+            </div>
+
+            <!-- Detailed Breakdown -->
+            <div class="grid grid-cols-2 gap-4 mb-6">
+                <div class="bg-emerald-50 border-2 border-emerald-200 p-4 rounded-2xl">
+                    <span class="text-3xl">✓</span>
+                    <p class="text-slate-600 font-bold text-xs mt-1">Jawaban Benar</p>
+                    <p class="text-emerald-700 font-black text-2xl" id="resultCorrectCount">0</p>
+                </div>
+                <div class="bg-rose-50 border-2 border-rose-200 p-4 rounded-2xl">
+                    <span class="text-3xl">✗</span>
+                    <p class="text-slate-600 font-bold text-xs mt-1">Jawaban Salah</p>
+                    <p class="text-rose-700 font-black text-2xl" id="resultIncorrectCount">0</p>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col md:flex-row gap-3">
+                <button onclick="showCertificateScreen()" 
+                        class="flex-1 py-4 bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-xl rounded-2xl shadow-lg border-b-4 border-amber-700 btn-bounce flex items-center justify-center gap-2">
+                    <span>🏆 LIHAT SERTIFIKAT</span>
+                </button>
+                <button onclick="restartGame()" 
+                        class="flex-1 py-4 bg-sky-500 hover:bg-sky-600 text-white font-extrabold text-xl rounded-2xl shadow-lg border-b-4 border-sky-700 btn-bounce flex items-center justify-center gap-2">
+                    <span>🔄 ULANGI GAME</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- 5. HALAMAN SERTIFIKAT (CERTIFICATE SCREEN) -->
+        <section id="screenCertificate" class="hidden w-full max-w-3xl">
+            <div id="certificateContainer" class="certificate-border rounded-3xl p-6 md:p-10 text-center relative shadow-2xl bg-white my-4">
+                <!-- Ribbon Graphic -->
+                <div class="text-5xl mb-2">🏆</div>
+                <h2 class="text-2xl md:text-4xl font-black text-sky-800 tracking-wide uppercase mb-1">SERTIFIKAT PENGHARGAAN</h2>
+                <div class="w-32 h-1 bg-amber-400 mx-auto mb-6"></div>
+
+                <p class="text-slate-600 font-medium text-base mb-2">Diberikan kepada:</p>
+                
+                <h3 id="certPlayerName" class="text-3xl md:text-5xl font-extrabold text-amber-600 underline decoration-amber-300 my-4 font-fun">
+                    [NAMA PEMAIN]
+                </h3>
+
+                <p class="text-slate-700 font-semibold max-w-lg mx-auto text-base md:text-lg mb-4">
+                    Atas keberhasilannya menyelesaikan game edukasi:
+                    <br><strong class="text-sky-700 font-extrabold text-xl">"PETUALANGAN MATEMATIKA KELAS 2A"</strong>
+                </p>
+
+                <!-- Certificate Stats Badge -->
+                <div class="inline-flex flex-col md:flex-row gap-4 bg-sky-50 border border-sky-200 px-6 py-3 rounded-2xl mb-6 text-slate-800 font-bold">
+                    <div>
+                        <span class="text-slate-500 font-semibold">Skor Akhir: </span>
+                        <span id="certScore" class="text-amber-600 font-extrabold">1000 / 1000</span>
+                    </div>
+                    <div class="hidden md:block text-slate-300">|</div>
+                    <div>
+                        <span class="text-slate-500 font-semibold">Jawaban Benar: </span>
+                        <span id="certCorrect" class="text-emerald-600 font-extrabold">50 dari 50</span>
+                    </div>
+                </div>
+
+                <p class="text-xs text-slate-500 mb-8" id="certDate">Tanggal penyelesaian: 29 September 2026</p>
+
+                <!-- Footer Signatures & Credits -->
+                <div class="flex justify-between items-end border-t border-slate-200 pt-4 text-left">
+                    <div class="text-xs text-slate-500">
+                        <p class="font-bold text-slate-700">Pengembang Game:</p>
+                        <p class="font-extrabold text-sky-700">GIGA INOVATION</p>
+                        <p class="font-bold text-emerald-700">📞 081329200985</p>
+                    </div>
+                    <div class="text-right">
+                        <div class="inline-block text-center">
+                            <span class="text-3xl">⭐ STAR GRADE ⭐</span>
+                            <p class="text-[10px] text-slate-400 mt-1">Dokumen Resmi Digital</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-3 mt-4">
+                <button onclick="window.print()" class="flex-1 py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold rounded-xl shadow btn-bounce flex items-center justify-center gap-2">
+                    <span>🖨️ CETAK SERTIFIKAT</span>
+                </button>
+                <button onclick="restartGame()" class="flex-1 py-3 bg-sky-500 hover:bg-sky-600 text-white font-extrabold rounded-xl shadow btn-bounce flex items-center justify-center gap-2">
+                    <span>🔄 ULANGI GAME</span>
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center py-3 text-slate-500 text-xs font-semibold bg-white/50 border-t border-slate-200 mt-4">
+        © 2026 Petualangan Matematika SD/MI Kelas 2A • Pengembang: <span class="font-bold text-sky-700">GIGA INOVATION</span> (WA: <span class="font-bold text-emerald-700">081329200985</span>)
+    </footer>
+
+    <script>
+        // COMPLETE DATABASE OF EXACTLY 50 MATH QUESTIONS BASED ON SD/MI KELAS 2A CURRICULUM
+        const questionsDatabase = [
+            // --- BAB 1: MEMBILANG SAMPAI DENGAN 50 (13 SOAL) ---
+            {
+                bab: "BAB 1 - Membilang Sampai 50",
+                visual: "<div class='text-4xl font-black text-sky-600 tracking-widest'>25, 26, 27, <span class='text-amber-500 underline'>...</span>, 29</div>",
+                question: "Bilangan setelah 27 adalah ....",
+                options: ["26", "28", "29", "30"],
+                answer: 1,
+                explanation: "Urutan bilangan mencacah naik: 25, 26, 27, 28, 29. Setelah 27 adalah 28."
+            },
+            {
+                bab: "BAB 1 - Membilang Sampai 50",
+                visual: "<div class='text-4xl font-black text-amber-600'>45</div>",
+                question: "Angka 4 pada bilangan 45 menempati nilai tempat ....",
+                options: ["satuan", "puluhan", "ratusan", "ribuan"],
+                answer: 1,
+                explanation: "Pada bilangan 45, angka 4 berada di depan yang merupakan tempat puluhan (nilainya 40)."
+            },
+            {
+                bab: "BAB 1 - Membilang Sampai 50",
+                visual: "<div class='flex gap-4 text-2xl font-bold'><span class='p-3 bg-amber-100 rounded-xl'>23</span> <span class='p-3 bg-sky-100 rounded-xl'>18</span> <span class='p-3 bg-emerald-100 rounded-xl'>15</span> <span class='p-3 bg-rose-100 rounded-xl'>12</span></div>",
+                question: "Manakah bilangan yang paling besar dari pilihan berikut?",
+                options: ["23", "18", "15", "12"],
+                answer: 0,
+                explanation: "Di antara 23, 18, 15, dan 12, bilangan 23 memiliki nilai paling besar."
+            },
+            {
+                bab: "BAB 1 - Membilang Sampai 50",
+                visual: "<div class='text-3xl font-bold text-purple-700'>39</div>",
+                question: "Lambang bilangan 'tiga puluh sembilan' ditulis dengan angka ....",
+                options: ["29", "39", "49", "36"],
+                answer: 1,
+                explanation: "Tiga puluh sembilan ditulis dengan lambang angka 39."
+            },
+            {
+                bab: "BAB 1 - Membilang Sampai 50",
+                visual: "<div class='text-3xl font-extrabold text-sky-700'>3 Puluhan + 6 Satuan = ...</div>",
+                question: "3 puluhan dan 6 satuan membentuk bilangan ....",
+                options: ["36", "63", "30", "60"],
+                answer: 0,
+                explanation: "3 puluhan = 30, 6 satuan = 6. 30 + 6 = 36."
+            },
+            {
+                bab: "BAB 1 - Membilang Sampai 50",
+                visual: "<div class='text-3xl font-bold text-slate-700'>34 ... 42</div>",
+                question: "Tanda perbandingan yang tepat untuk mengisi titik-titik adalah ....",
+                options: [">", "<", "=", "+"],
+                answer: 1,
+                explanation: "34 lebih kecil dari 42, sehingga menggunakan tanda '<' (34 < 42)."
+            },
+            {
+                bab: "BAB 1 - Membilang Sampai 50",
+                visual: "<div class='text-3xl font-bold text-amber-600'>14, 21, 35, 48</div>",
+                question: "Urutan bilangan dari yang TERKECIL ke terbesar adalah ....",
+                options: ["48, 35, 21, 14", "14, 21, 35, 48", "21, 14, 35, 48", "35, 21, 14, 48"],
+                answer: 1,
+                explanation: "Urutan dari terkecil adalah 14, lalu 21, kemudian 35, dan paling besar 48."
+            },
+            {
+                bab: "BAB 1 - Membilang Sampai 50",
+                visual: "<div class='text-3xl font-bold text-emerald-600'>50, 40, 30, 20</div>",
+                question: "Urutan bilangan dari yang TERBESAR ke terkecil adalah ....",
+                options: ["20, 30, 40, 50", "50, 40, 30, 20", "30, 20, 50, 40", "40, 50, 30, 20"],
+                answer: 1,
+                explanation: "Dari yang terbesar: 50, lalu 40, 30, dan paling kecil 20."
+            },
+            {
+                bab: "BAB 1 - Membilang Sampai 50",
+                visual: "<div class='text-3xl font-black text-indigo-600'>... , 31, 32</div>",
+                question: "Bilangan tepat SEBELUM 31 adalah ....",
+                options: ["29", "30", "33", "34"],
+                answer: 1,
+                explanation: "Sebelum angka 31 dalam hitungan adalah bilangan 30."
+            },
+            {
+                bab: "BAB 1 - Membilang Sampai 50",
+                visual: "<div class='text-3xl font-black text-rose-600'>49 ... 49</div>",
+                question: "Isilah dengan tanda perbandingan yang tepat: 49 ... 49",
+                options: [">", "<", "=", "-"],
+                answer: 2,
+                explanation: "Nilai kedua bilangan sama, maka digunakan tanda sama dengan '='."
+            },
+            {
+                bab: "BAB 1 - Membilang Sampai 50",
+                visual: "<div class='text-2xl font-bold text-teal-700'>Bilangan: 28</div>",
+                question: "Angka 8 pada bilangan 28 menempati nilai tempat ....",
+                options: ["puluhan", "satuan", "ratusan", "ribuan"],
+                answer: 1,
+                explanation: "Angka paling belakang (8) menempati nilai tempat satuan."
+            },
+            {
+                bab: "BAB 1 - Membilang Sampai 50",
+                visual: "<div class='text-2xl font-bold text-amber-700'>4 Puluhan + 2 Satuan = ...</div>",
+                question: "Nilai dari 4 puluhan ditambah 2 satuan adalah ....",
+                options: ["24", "42", "402", "420"],
+                answer: 1,
+                explanation: "4 puluhan (40) + 2 satuan (2) = 42."
+            },
+            {
+                bab: "BAB 1 - Membilang Sampai 50",
+                visual: "<div class='text-3xl font-bold text-sky-600'>12, 15, 18, 21</div>",
+                question: "Banyaknya bilangan antara 20 dan 25 yang berakhir angka 2 adalah ....",
+                options: ["21", "22", "23", "24"],
+                answer: 1,
+                explanation: "Bilangan antara 20 dan 25 yang berakhiran angka 2 adalah 22."
+            },
+
+            // --- BAB 2: PENJUMLAHAN DAN PENGURANGAN (13 SOAL) ---
+            {
+                bab: "BAB 2 - Penjumlahan & Pengurangan",
+                visual: "<div class='text-3xl font-extrabold text-emerald-600'>12 + 7 = ...</div>",
+                question: "Hasil penjumlahan dari 12 + 7 adalah ....",
+                options: ["17", "18", "19", "20"],
+                answer: 2,
+                explanation: "12 + 7 = 19."
+            },
+            {
+                bab: "BAB 2 - Penjumlahan & Pengurangan",
+                visual: "<div class='text-3xl font-extrabold text-rose-600'>25 - 8 = ...</div>",
+                question: "Hasil pengurangan dari 25 - 8 adalah ....",
+                options: ["15", "16", "17", "18"],
+                answer: 2,
+                explanation: "25 dikurangi 8 sama dengan 17."
+            },
+            {
+                bab: "BAB 2 - Penjumlahan & Pengurangan",
+                visual: "<div class='text-3xl'>🍬🍬🍬🍬🍬🍬🍬🍬🍬🍬🍬🍬 + 🍬🍬🍬🍬🍬</div>",
+                question: "Rina mempunyai 12 permen. Ibu memberikan 5 permen lagi. Berapa jumlah permen Rina sekarang?",
+                options: ["15", "16", "17", "18"],
+                answer: 2,
+                explanation: "12 permen + 5 permen = 17 permen."
+            },
+            {
+                bab: "BAB 2 - Penjumlahan & Pengurangan",
+                visual: "<div class='text-3xl'>🍎🍎🍎🍎🍎🍎🍎🍎🍎🍎🍎🍎🍎🍎 (14) - 🍎🍎🍎 (3)</div>",
+                question: "Budi membeli 14 buah apel. Sebanyak 3 buah diberikan kepada temannya. Sisa apel Budi adalah ....",
+                options: ["10", "11", "12", "13"],
+                answer: 1,
+                explanation: "14 - 3 = 11 buah apel."
+            },
+            {
+                bab: "BAB 2 - Penjumlahan & Pengurangan",
+                visual: "<div class='text-3xl font-extrabold text-sky-700'>20 + 15 = ...</div>",
+                question: "Hasil dari 20 + 15 adalah ....",
+                options: ["30", "35", "40", "25"],
+                answer: 1,
+                explanation: "20 + 15 = 35."
+            },
+            {
+                bab: "BAB 2 - Penjumlahan & Pengurangan",
+                visual: "<div class='text-3xl font-extrabold text-amber-700'>38 - 14 = ...</div>",
+                question: "Hasil dari 38 - 14 adalah ....",
+                options: ["22", "24", "26", "28"],
+                answer: 1,
+                explanation: "38 - 14 = 24."
+            },
+            {
+                bab: "BAB 2 - Penjumlahan & Pengurangan",
+                visual: "<div class='text-3xl'>✏️✏️✏️✏️✏️✏️✏️ (7) + ✏️✏️✏️✏️✏️✏️✏️✏️ (8)</div>",
+                question: "Di dalam kotak ada 7 pensil. Ani memasukkan lagi 8 pensil. Berapa pensil di dalam kotak?",
+                options: ["13", "14", "15", "16"],
+                answer: 2,
+                explanation: "7 + 8 = 15 pensil."
+            },
+            {
+                bab: "BAB 2 - Penjumlahan & Pengurangan",
+                visual: "<div class='text-2xl font-bold text-indigo-600'>15 + ... = 20</div>",
+                question: "Angka yang tepat untuk mengisi titik-titik pada 15 + ... = 20 adalah ....",
+                options: ["4", "5", "6", "10"],
+                answer: 1,
+                explanation: "20 - 15 = 5. Jadi 15 + 5 = 20."
+            },
+            {
+                bab: "BAB 2 - Penjumlahan & Pengurangan",
+                visual: "<div class='text-3xl font-extrabold text-purple-600'>30 - 10 = ...</div>",
+                question: "Hitunglah: 30 dikurangi 10 adalah ....",
+                options: ["10", "20", "30", "40"],
+                answer: 1,
+                explanation: "30 - 10 = 20."
+            },
+            {
+                bab: "BAB 2 - Penjumlahan & Pengurangan",
+                visual: "<div class='text-3xl'>🐥🐥🐥🐥🐥🐥🐥🐥 (8) + 🐥🐥🐥🐥🐥🐥 (6)</div>",
+                question: "Paman memelihara 8 ekor anak ayam. Hari ini menetas lagi 6 ekor. Berapa jumlah anak ayam paman?",
+                options: ["12", "13", "14", "15"],
+                answer: 2,
+                explanation: "8 + 6 = 14 ekor anak ayam."
+            },
+            {
+                bab: "BAB 2 - Penjumlahan & Pengurangan",
+                visual: "<div class='text-3xl font-bold text-teal-700'>24 + 13 = ...</div>",
+                question: "Berapakah hasil dari 24 + 13?",
+                options: ["35", "37", "39", "40"],
+                answer: 1,
+                explanation: "24 + 13 = 37."
+            },
+            {
+                bab: "BAB 2 - Penjumlahan & Pengurangan",
+                visual: "<div class='text-3xl font-bold text-rose-700'>45 - 20 = ...</div>",
+                question: "Hasil dari 45 - 20 adalah ....",
+                options: ["15", "20", "25", "30"],
+                answer: 2,
+                explanation: "45 - 20 = 25."
+            },
+            {
+                bab: "BAB 2 - Penjumlahan & Pengurangan",
+                visual: "<div class='text-2xl font-bold text-slate-700'>40 - ... = 25</div>",
+                question: "Berapakah bilangan untuk mengisi titik-titik: 40 - ... = 25?",
+                options: ["10", "15", "20", "25"],
+                answer: 1,
+                explanation: "40 - 25 = 15. Jadi 40 - 15 = 25."
+            },
+
+            // --- BAB 3: BENTUK DI SEKITAR KITA (12 SOAL) ---
+            {
+                bab: "BAB 3 - Bentuk di Sekitar Kita",
+                visual: "<svg class='w-20 h-20 text-sky-500 fill-current' viewBox='0 0 100 100'><polygon points='50,15 90,85 10,85'/></svg>",
+                question: "Bentuk yang mempunyai tiga sisi dan tiga sudut adalah ....",
+                options: ["lingkaran", "persegi", "segitiga", "persegi panjang"],
+                answer: 2,
+                explanation: "Segitiga memiliki 3 sisi dan 3 titik sudut."
+            },
+            {
+                bab: "BAB 3 - Bentuk di Sekitar Kita",
+                visual: "<svg class='w-20 h-20 text-emerald-500 fill-current' viewBox='0 0 100 100'><circle cx='50' cy='50' r='40'/></svg>",
+                question: "Bangun datar yang tidak memiliki titik sudut dan berbentuk bulat adalah ....",
+                options: ["persegi", "lingkaran", "segitiga", "kubus"],
+                answer: 1,
+                explanation: "Lingkaran berbentuk melengkung sempurna dan tidak memiliki titik sudut."
+            },
+            {
+                bab: "BAB 3 - Bentuk di Sekitar Kita",
+                visual: "<div class='text-4xl'>🪙</div>",
+                question: "Uang koin atau uang logam di sekitar kita berbentuk ....",
+                options: ["segitiga", "lingkaran", "persegi", "balok"],
+                answer: 1,
+                explanation: "Uang koin menyerupai bentuk bangun datar lingkaran."
+            },
+            {
+                bab: "BAB 3 - Bentuk di Sekitar Kita",
+                visual: "<svg class='w-20 h-20 text-amber-500 fill-current' viewBox='0 0 100 100'><rect x='10' y='10' width='80' height='80' rx='4'/></svg>",
+                question: "Bangun datar yang mempunyai 4 sisi sama panjang adalah ....",
+                options: ["persegi", "segitiga", "lingkaran", "oval"],
+                answer: 0,
+                explanation: "Persegi memiliki 4 sisi yang panjangnya semuanya sama."
+            },
+            {
+                bab: "BAB 3 - Bentuk di Sekitar Kita",
+                visual: "<div class='text-4xl'>🎲</div>",
+                question: "Dadu permainan di sekitar kita berbentuk bangun ruang ....",
+                options: ["tabung", "bola", "kubus", "kerucut"],
+                answer: 2,
+                explanation: "Dadu berbentuk bangun ruang kubus dengan 6 sisi berbentuk persegi."
+            },
+            {
+                bab: "BAB 3 - Bentuk di Sekitar Kita",
+                visual: "<div class='text-4xl'>📦</div>",
+                question: "Kotak kardus pasta gigi atau kotak sepatu biasanya menyerupai bangun ruang ....",
+                options: ["balok", "bola", "lingkaran", "segitiga"],
+                answer: 0,
+                explanation: "Kotak sepatu dan kardus pasta gigi menyerupai bangun ruang balok."
+            },
+            {
+                bab: "BAB 3 - Bentuk di Sekitar Kita",
+                visual: "<div class='text-4xl'>🛞</div>",
+                question: "Roda sepeda menyerupai bentuk bangun datar ....",
+                options: ["persegi", "lingkaran", "segitiga", "persegi panjang"],
+                answer: 1,
+                explanation: "Roda sepeda berbentuk lingkaran agar dapat menggelinding dengan lancar."
+            },
+            {
+                bab: "BAB 3 - Bentuk di Sekitar Kita",
+                visual: "<div class='text-4xl'>⚽</div>",
+                question: "Bola sepak di lapangan berbentuk bangun ruang ....",
+                options: ["kubus", "balok", "bola", "tabung"],
+                answer: 2,
+                explanation: "Bola sepak merupakan contoh benda berbentuk bangun ruang bola."
+            },
+            {
+                bab: "BAB 3 - Bentuk di Sekitar Kita",
+                visual: "<div class='flex gap-2 items-center'><div class='w-12 h-12 bg-rose-400'></div><div class='w-12 h-12 bg-rose-400'></div></div>",
+                question: "Jika dua buah persegi digabungkan bersisian, dapat membentuk bangun datar ....",
+                options: ["lingkaran", "persegi panjang", "segitiga", "tabung"],
+                answer: 1,
+                explanation: "Dua persegi yang ditempelkan bersisian akan menyusun bentuk persegi panjang."
+            },
+            {
+                bab: "BAB 3 - Bentuk di Sekitar Kita",
+                visual: "<svg class='w-24 h-16 text-indigo-500 fill-current' viewBox='0 0 120 80'><rect x='5' y='10' width='110' height='60'/></svg>",
+                question: "Buku tulis dan pintu kelas kita biasanya berbentuk ....",
+                options: ["persegi panjang", "lingkaran", "segitiga", "kubus"],
+                answer: 0,
+                explanation: "Buku tulis dan pintu berbentuk permukaan persegi panjang."
+            },
+            {
+                bab: "BAB 3 - Bentuk di Sekitar Kita",
+                visual: "<div class='text-4xl'>📐</div>",
+                question: "Penggaris segitiga memiliki titik sudut sebanyak ....",
+                options: ["2", "3", "4", "5"],
+                answer: 1,
+                explanation: "Penggaris segitiga memiliki 3 buah titik sudut."
+            },
+            {
+                bab: "BAB 3 - Bentuk di Sekitar Kita",
+                visual: "<div class='text-4xl'>🧱</div>",
+                question: "Batu bata di sekitar rumah kita menyerupai bentuk bangun ....",
+                options: ["balok", "lingkaran", "segitiga", "bola"],
+                answer: 0,
+                explanation: "Batu bata berbentuk bangun ruang balok."
+            },
+
+            // --- BAB 4: POSISI BENDA DAN POLA DI SEKITAR KITA (12 SOAL) ---
+            {
+                bab: "BAB 4 - Posisi Benda & Pola",
+                visual: "<div class='p-4 bg-amber-100 rounded-xl text-center'><span class='text-3xl'>⚽</span><br><span class='font-bold text-slate-700'>📦 Kotak</span></div>",
+                question: "Jika bola berada di atas kotak, maka posisi bola terletak di ....",
+                options: ["bawah kotak", "dalam kotak", "atas kotak", "belakang kotak"],
+                answer: 2,
+                explanation: "Bola berada pada bagian atas kotak."
+            },
+            {
+                bab: "BAB 4 - Posisi Benda & Pola",
+                visual: "<div class='text-4xl tracking-widest'>⭐ 🔵 ⭐ 🔵 ⭐ <span class='text-rose-500 font-black'>?</span></div>",
+                question: "Perhatikan pola: ⭐ 🔵 ⭐ 🔵 ⭐ ... Gambar berikutnya adalah ....",
+                options: ["⭐", "🔵", "🟩", "🔺"],
+                answer: 1,
+                explanation: "Polanya bergantian antara Bintang (⭐) dan Lingkaran Biru (🔵). Setelah Bintang adalah Lingkaran Biru."
+            },
+            {
+                bab: "BAB 4 - Posisi Benda & Pola",
+                visual: "<div class='text-4xl tracking-widest'>🔴 🟩 🔴 🟩 🔴 <span class='text-rose-500 font-black'>?</span></div>",
+                question: "Lanjutkan pola warna berikut: 🔴 🟩 🔴 🟩 🔴 ...",
+                options: ["🔴", "🟩", "🟡", "🔵"],
+                answer: 1,
+                explanation: "Pola warna berulang Merah - Hijau - Merah - Hijau. Setelah Merah adalah Hijau (🟩)."
+            },
+            {
+                bab: "BAB 4 - Posisi Benda & Pola",
+                visual: "<div class='text-3xl font-black text-sky-600'>2, 4, 6, 8, ...</div>",
+                question: "Lanjutkan pola bilangan lompat 2 berikut: 2, 4, 6, 8, ....",
+                options: ["9", "10", "11", "12"],
+                answer: 1,
+                explanation: "Pola bertambah 2 (lompat 2). Setelah 8 adalah 8 + 2 = 10."
+            },
+            {
+                bab: "BAB 4 - Posisi Benda & Pola",
+                visual: "<div class='text-3xl font-black text-emerald-600'>5, 10, 15, 20, ...</div>",
+                question: "Lanjutkan pola bilangan berikut: 5, 10, 15, 20, ....",
+                options: ["22", "23", "25", "30"],
+                answer: 2,
+                explanation: "Pola bertambah 5 setiap langkah. Setelah 20 adalah 25."
+            },
+            {
+                bab: "BAB 4 - Posisi Benda & Pola",
+                visual: "<div class='p-3 bg-sky-100 rounded-xl text-center'><span class='text-3xl'>🐱 📦</span></div>",
+                question: "Kucing masuk ke dalam kardus. Posisi kucing berada di ....",
+                options: ["luar kardus", "dalam kardus", "bawah kardus", "samping kardus"],
+                answer: 1,
+                explanation: "Kucing berada di dalam kardus."
+            },
+            {
+                bab: "BAB 4 - Posisi Benda & Pola",
+                visual: "<div class='text-4xl tracking-wider'>🔺 ◼️ 🔺 ◼️ <span class='text-amber-500 font-black'>?</span></div>",
+                question: "Lengkapi pola bentuk berikut: Segitiga, Persegi, Segitiga, Persegi, ....",
+                options: ["Lingkaran", "Segitiga", "Persegi", "Oval"],
+                answer: 1,
+                explanation: "Pola berulang Segitiga lalu Persegi. Setelah Persegi adalah Segitiga."
+            },
+            {
+                bab: "BAB 4 - Posisi Benda & Pola",
+                visual: "<div class='text-3xl font-bold text-slate-700'>Tangan kanan & Tangan kiri</div>",
+                question: "Saat memegang sendok makan pada umumnya, kita menggunakan tangan ....",
+                options: ["kiri", "kanan", "atas", "bawah"],
+                answer: 1,
+                explanation: "Kita menggunakan tangan kanan untuk makan dengan sopan."
+            },
+            {
+                bab: "BAB 4 - Posisi Benda & Pola",
+                visual: "<div class='text-3xl font-black text-amber-600'>10, 9, 8, 7, ...</div>",
+                question: "Lanjutkan pola bilangan mundur: 10, 9, 8, 7, ....",
+                options: ["8", "6", "5", "4"],
+                answer: 1,
+                explanation: "Pola berkurang 1 (hitungan mundur). Setelah 7 adalah 6."
+            },
+            {
+                bab: "BAB 4 - Posisi Benda & Pola",
+                visual: "<div class='p-3 bg-amber-50 rounded-xl text-center text-3xl'>👟 🛋️</div>",
+                question: "Sepatu ditaruh di bawah sofa. Posisi sepatu berada di ....",
+                options: ["atas sofa", "bawah sofa", "dalam sofa", "depan sofa"],
+                answer: 1,
+                explanation: "Sepatu terletak pada posisi bagian bawah sofa."
+            },
+            {
+                bab: "BAB 4 - Posisi Benda & Pola",
+                visual: "<div class='text-4xl tracking-widest'>🍎 🍌 🍎 🍌 <span class='text-red-500 font-black'>?</span></div>",
+                question: "Pola buah: Apel, Pisang, Apel, Pisang, .... Gambar berikutnya adalah ....",
+                options: ["Pisang", "Apel", "Jeruk", "Melon"],
+                answer: 1,
+                explanation: "Urutan bergantian: Apel - Pisang - Apel - Pisang - Apel."
+            },
+            {
+                bab: "BAB 4 - Posisi Benda & Pola",
+                visual: "<div class='text-3xl font-black text-purple-600'>3, 6, 9, 12, ...</div>",
+                question: "Lanjutkan pola lompat 3 berikut: 3, 6, 9, 12, ....",
+                options: ["13", "14", "15", "16"],
+                answer: 2,
+                explanation: "Pola ditambah 3 setiap langkah. 12 + 3 = 15."
+            }
+        ];
+
+        // APP STATE VARIABLES
+        let playerName = "";
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let correctAnswersCount = 0;
+        let incorrectAnswersCount = 0;
+        let isAnswered = false;
+
+        // AUDIO SYNTHESIS & SOUND EFFECTS
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSoundEffect(type) {
+            if (!audioCtx) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            const now = audioCtx.currentTime;
+
+            if (type === 'correct') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(523.25, now); // C5
+                osc.frequency.exponentialRampToValueAtTime(659.25, now + 0.1); // E5
+                osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.2); // G5
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+                osc.start(now);
+                osc.stop(now + 0.4);
+            } else if (type === 'wrong') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(300, now);
+                osc.frequency.linearRampToValueAtTime(150, now + 0.3);
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                osc.start(now);
+                osc.stop(now + 0.3);
+            } else if (type === 'finish') {
+                // Happy fanfare
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(440, now);
+                osc.frequency.setValueAtTime(554.37, now + 0.1);
+                osc.frequency.setValueAtTime(659.25, now + 0.2);
+                osc.frequency.setValueAtTime(880, now + 0.3);
+                gain.gain.setValueAtTime(0.3, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.6);
+                osc.start(now);
+                osc.stop(now + 0.6);
+            }
+        }
+
+        // TEXT TO SPEECH (INDONESIAN VOICE)
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel(); // Stop ongoing speech
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'id-ID';
+                utterance.rate = 0.95; // Slightly slower for primary kids
+                utterance.pitch = 1.1; // Friendly warm tone
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        const materialData = {
+            1: `
+                <div class="bg-sky-50 border-2 border-sky-200 p-4 rounded-2xl">
+                    <h3 class="font-extrabold text-sky-800 text-lg mb-2">📌 BAB 1: Membilang Sampai dengan 50</h3>
+                    <ul class="space-y-2 text-sm leading-relaxed">
+                        <li><strong>1. Membilang & Menulis:</strong> Urutan angka dimulai dari 1, 2, 3... sampai 50. Bilangan sesudah 27 adalah 28; sebelum 31 adalah 30.</li>
+                        <li><strong>2. Nilai Tempat (Puluhan & Satuan):</strong> 
+                            <br>• Pada angka <strong>45</strong>: 4 = Puluhan (40), 5 = Satuan (5).
+                            <br>• 3 Puluhan + 6 Satuan = 36.
+                        </li>
+                        <li><strong>3. Membandingkan Bilangan:</strong>
+                            <br>• Tanda <strong>&gt;</strong> (Lebih besar): 40 &gt; 25
+                            <br>• Tanda <strong>&lt;</strong> (Lebih kecil): 15 &lt; 30
+                            <br>• Tanda <strong>=</strong> (Sama dengan): 49 = 49
+                        </li>
+                    </ul>
+                </div>
+            `,
+            2: `
+                <div class="bg-emerald-50 border-2 border-emerald-200 p-4 rounded-2xl">
+                    <h3 class="font-extrabold text-emerald-800 text-lg mb-2">📌 BAB 2: Penjumlahan dan Pengurangan</h3>
+                    <ul class="space-y-2 text-sm leading-relaxed">
+                        <li><strong>1. Penjumlahan (+):</strong> Menggabungkan atau menambah jumlah benda.
+                            <br>• Contoh: 12 + 7 = 19
+                        </li>
+                        <li><strong>2. Pengurangan (-):</strong> Mengurangi atau mengambil sisa benda.
+                            <br>• Contoh: 25 - 8 = 17
+                        </li>
+                        <li><strong>3. Soal Cerita:</strong>
+                            <br>• <em>"Rina punya 12 permen, diberi lagi 5."</em> Maka ditambah: 12 + 5 = 17 permen.
+                            <br>• <em>"Budi punya 14 apel, diberikan 3 ke teman."</em> Maka dikurang: 14 - 3 = 11 apel.
+                        </li>
+                    </ul>
+                </div>
+            `,
+            3: `
+                <div class="bg-purple-50 border-2 border-purple-200 p-4 rounded-2xl">
+                    <h3 class="font-extrabold text-purple-800 text-lg mb-2">📌 BAB 3: Bentuk di Sekitar Kita</h3>
+                    <ul class="space-y-2 text-sm leading-relaxed">
+                        <li><strong>1. Bangun Datar:</strong>
+                            <br>• 🔺 <strong>Segitiga:</strong> Mempunyai 3 sisi dan 3 titik sudut.
+                            <br>• 🟩 <strong>Persegi:</strong> Mempunyai 4 sisi yang sama panjang.
+                            <br>• ▭ <strong>Persegi Panjang:</strong> Mempunyai 4 sisi (sisi berhadapan sama panjang).
+                            <br>• ⭕ <strong>Lingkaran:</strong> Berbentuk bulat, tidak punya sudut (seperti koin / roda).
+                        </li>
+                        <li><strong>2. Bangun Ruang:</strong>
+                            <br>• 🎲 <strong>Kubus:</strong> Memiliki 6 sisi persegi yang sama (contoh: dadu).
+                            <br>• 📦 <strong>Balok:</strong> Berbentuk kotak (contoh: kardus pasta gigi, batu bata).
+                            <br>• ⚽ <strong>Bola:</strong> Berbentuk bulat bangun ruang.
+                        </li>
+                    </ul>
+                </div>
+            `,
+            4: `
+                <div class="bg-amber-50 border-2 border-amber-200 p-4 rounded-2xl">
+                    <h3 class="font-extrabold text-amber-800 text-lg mb-2">📌 BAB 4: Posisi Benda dan Pola</h3>
+                    <ul class="space-y-2 text-sm leading-relaxed">
+                        <li><strong>1. Posisi Benda:</strong>
+                            <br>• Atas & Bawah (misal: bola di atas meja / sepatu di bawah sofa).
+                            <br>• Dalam & Luar (misal: kucing di dalam kardus).
+                            <br>• Kanan & Kiri (misal: tangan kanan untuk memegang sendok makan).
+                        </li>
+                        <li><strong>2. Pola Gambar & Bilangan:</strong>
+                            <br>• Pola Gambar: ⭐ 🔵 ⭐ 🔵 ⭐ ➔ Gambar berikutnya adalah 🔵.
+                            <br>• Pola Warna: 🔴 🟩 🔴 🟩 ➔ Warna berikutnya adalah 🔴.
+                            <br>• Pola Bilangan Lompat 2: 2, 4, 6, 8, ➔ Angka berikutnya 10.
+                        </li>
+                    </ul>
+                </div>
+            `
+        };
+
+        function switchMaterialTab(babNum) {
+            document.querySelectorAll('.material-tab').forEach(tab => {
+                tab.className = 'material-tab px-4 py-2 rounded-xl font-bold text-sm whitespace-nowrap bg-slate-100 text-slate-600 hover:bg-slate-200';
+            });
+            const activeTab = document.getElementById(`tabBab${babNum}`);
+            if (activeTab) {
+                activeTab.className = 'material-tab px-4 py-2 rounded-xl font-bold text-sm whitespace-nowrap bg-sky-500 text-white shadow';
+            }
+            document.getElementById('materialContent').innerHTML = materialData[babNum];
+        }
+
+        function showScreen(screenId) {
+            const screens = ['screenWelcome', 'screenMaterial', 'screenInstructions', 'screenQuiz', 'screenResults', 'screenCertificate'];
+            screens.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.add('hidden');
+            });
+            const targetEl = document.getElementById(screenId);
+            if (targetEl) targetEl.classList.remove('hidden');
+
+            if (screenId === 'screenQuiz') {
+                document.getElementById('headerScoreBox').classList.remove('hidden');
+            } else if (screenId === 'screenWelcome' || screenId === 'screenMaterial') {
+                document.getElementById('headerScoreBox').classList.add('hidden');
+            }
+        }
+
+        function proceedToMaterials() {
+            const nameInput = document.getElementById('playerNameInput').value.trim();
+            const nameError = document.getElementById('nameError');
+
+            if (!nameInput) {
+                nameError.classList.remove('hidden');
+                return;
+            }
+
+            nameError.classList.add('hidden');
+            playerName = nameInput;
+
+            const greetingBox = document.getElementById('greetingBox');
+            const greetingText = document.getElementById('greetingText');
+            greetingText.textContent = `Halo, ${playerName}! 👋 Siap belajar materi Matematika?`;
+            greetingBox.classList.remove('hidden');
+
+            speakText(`Halo, ${playerName}! Yuk kita pelajari dulu materi matematikanya.`);
+
+            setTimeout(() => {
+                switchMaterialTab(1);
+                showScreen('screenMaterial');
+            }, 1200);
+        }
+
+        // Validate & Welcome Player
+        function proceedToInstructions() {
+            const nameInput = document.getElementById('playerNameInput').value.trim();
+            const nameError = document.getElementById('nameError');
+
+            if (!nameInput) {
+                nameError.classList.remove('hidden');
+                return;
+            }
+
+            nameError.classList.add('hidden');
+            playerName = nameInput;
+
+            // Show dynamic greeting banner
+            const greetingBox = document.getElementById('greetingBox');
+            const greetingText = document.getElementById('greetingText');
+            greetingText.textContent = `Halo, ${playerName}! 👋 Siap belajar dan bermain Matematika?`;
+            greetingBox.classList.remove('hidden');
+
+            // Speak welcoming voice
+            speakText(`Halo, ${playerName}! Selamat datang di Petualangan Matematika.`);
+
+            setTimeout(() => {
+                showScreen('screenInstructions');
+            }, 1200);
+        }
+
+        // Start Gameplay Initialization
+        function startGameplay() {
+            currentQuestionIndex = 0;
+            score = 0;
+            correctAnswersCount = 0;
+            incorrectAnswersCount = 0;
+            updateHeaderScore();
+            showScreen('screenQuiz');
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            isAnswered = false;
+            const q = questionsDatabase[currentQuestionIndex];
+
+            // Hide previous feedback box
+            document.getElementById('feedbackBox').classList.add('hidden');
+
+            // Update Progress header
+            document.getElementById('quizBabBadge').textContent = q.bab;
+            document.getElementById('quizProgressText').textContent = `Soal ${currentQuestionIndex + 1} dari 50`;
+            const progressPercent = ((currentQuestionIndex + 1) / 50) * 100;
+            document.getElementById('quizProgressBar').style.width = `${progressPercent}%`;
+
+            // Set question visual & text
+            document.getElementById('questionVisual').innerHTML = q.visual;
+            document.getElementById('questionText').textContent = q.question;
+
+            // Render Options
+            const optionsGrid = document.getElementById('optionsGrid');
+            optionsGrid.innerHTML = '';
+
+            const prefixes = ['A', 'B', 'C', 'D'];
+            q.options.forEach((optText, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn w-full p-4 bg-white border-2 border-slate-200 hover:border-sky-400 rounded-2xl text-left flex items-center gap-3 font-bold text-slate-700 text-lg md:text-xl';
+                btn.onclick = () => selectAnswer(index);
+                btn.innerHTML = `
+                    <span class="w-9 h-9 rounded-xl bg-sky-100 text-sky-700 font-extrabold flex items-center justify-center text-base flex-shrink-0 border border-sky-200">${prefixes[index]}</span>
+                    <span>${optText}</span>
+                `;
+                optionsGrid.appendChild(btn);
+            });
+        }
+
+        function selectAnswer(selectedIndex) {
+            if (isAnswered) return;
+            isAnswered = true;
+
+            const q = questionsDatabase[currentQuestionIndex];
+            const isCorrect = (selectedIndex === q.answer);
+
+            const feedbackBox = document.getElementById('feedbackBox');
+            const feedbackBadge = document.getElementById('feedbackBadge');
+            const feedbackTitle = document.getElementById('feedbackTitle');
+            const feedbackExp = document.getElementById('feedbackExplanation');
+
+            // Disable all option buttons visual state
+            const buttons = document.querySelectorAll('#optionsGrid button');
+            buttons.forEach((btn, idx) => {
+                btn.disabled = true;
+                if (idx === q.answer) {
+                    btn.classList.remove('bg-white', 'border-slate-200');
+                    btn.classList.add('bg-emerald-100', 'border-emerald-400', 'text-emerald-900');
+                } else if (idx === selectedIndex && !isCorrect) {
+                    btn.classList.remove('bg-white', 'border-slate-200');
+                    btn.classList.add('bg-rose-100', 'border-rose-400', 'text-rose-900');
+                }
+            });
+
+            if (isCorrect) {
+                score += 20;
+                correctAnswersCount++;
+                playSoundEffect('correct');
+
+                feedbackBox.className = 'border-4 border-emerald-300 bg-emerald-50 rounded-2xl p-4 md:p-5 mb-6 text-center animate-bounce-short';
+                feedbackBadge.className = 'inline-block bg-emerald-500 text-white font-extrabold px-4 py-1 rounded-full text-sm mb-2';
+                feedbackBadge.textContent = '✓ BENAR! +20 POIN';
+                feedbackTitle.className = 'text-xl font-black text-emerald-800 mb-1';
+                feedbackTitle.textContent = `Hebat sekali, ${playerName}! 🎉`;
+                
+                speakText(`Benar, ${playerName}! Hebat sekali!`);
+
+                // Confetti burst for correct answer
+                confetti({
+                    particleCount: 25,
+                    spread: 60,
+                    origin: { y: 0.7 }
+                });
+            } else {
+                incorrectAnswersCount++;
+                playSoundEffect('wrong');
+
+                feedbackBox.className = 'border-4 border-rose-300 bg-rose-50 rounded-2xl p-4 md:p-5 mb-6 text-center';
+                feedbackBadge.className = 'inline-block bg-rose-500 text-white font-extrabold px-4 py-1 rounded-full text-sm mb-2';
+                feedbackBadge.textContent = '✗ BELUM TEPAT';
+                feedbackTitle.className = 'text-xl font-black text-rose-800 mb-1';
+                feedbackTitle.textContent = `Yuk, pelajari jawabannya, ${playerName}.`;
+
+                speakText(`Belum tepat, ${playerName}. Yuk, pelajari jawabannya.`);
+            }
+
+            // Set explanation display text
+            const correctPrefix = ['A', 'B', 'C', 'D'][q.answer];
+            feedbackExp.innerHTML = `<strong>Jawaban benar: ${correctPrefix}. ${q.options[q.answer]}</strong><br><span class='text-sm text-slate-600 mt-1 block'>${q.explanation}</span>`;
+
+            updateHeaderScore();
+            feedbackBox.classList.remove('hidden');
+        }
+
+        function updateHeaderScore() {
+            document.getElementById('headerScore').textContent = score;
+            document.getElementById('quizScoreText').textContent = `Skor: ${score}`;
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questionsDatabase.length) {
+                loadQuestion();
+            } else {
+                finishGame();
+            }
+        }
+
+        function finishGame() {
+            playSoundEffect('finish');
+
+            // Set final result texts
+            document.getElementById('resultPlayerName').textContent = `Hebat, ${playerName}!`;
+            document.getElementById('resultFinalScore').textContent = `${score} / 1000`;
+            document.getElementById('resultCorrectCount').textContent = correctAnswersCount;
+            document.getElementById('resultIncorrectCount').textContent = incorrectAnswersCount;
+
+            const badge = document.getElementById('resultCategoryBadge');
+            const msg = document.getElementById('resultCategoryMessage');
+
+            if (score >= 800) {
+                badge.textContent = "🌟 LUAR BIASA!";
+                badge.className = "inline-block bg-amber-400 text-amber-950 px-6 py-2 rounded-full font-black text-lg md:text-xl shadow mb-4";
+                msg.textContent = "Kamu sangat baik dalam belajar Matematika. Luar biasa, pertahankan prestasimu!";
+            } else if (score >= 600) {
+                badge.textContent = "⭐ HEBAT!";
+                badge.className = "inline-block bg-sky-400 text-sky-950 px-6 py-2 rounded-full font-black text-lg md:text-xl shadow mb-4";
+                msg.textContent = "Kamu sudah memahami banyak materi Matematika. Terus tingkatkan dan berlatih ya!";
+            } else if (score >= 400) {
+                badge.textContent = "💪 SEMANGAT!";
+                badge.className = "inline-block bg-emerald-400 text-emerald-950 px-6 py-2 rounded-full font-black text-lg md:text-xl shadow mb-4";
+                msg.textContent = "Kamu sudah belajar dengan baik. Yuk, terus berlatih agar makin pinter!";
+            } else {
+                badge.textContent = "🌱 JANGAN MENYERAH!";
+                badge.className = "inline-block bg-rose-400 text-rose-950 px-6 py-2 rounded-full font-black text-lg md:text-xl shadow mb-4";
+                msg.textContent = "Belajar sedikit demi sedikit ya. Coba lagi dan kamu pasti bisa!";
+            }
+
+            showScreen('screenResults');
+
+            // Big Confetti celebration on completion
+            confetti({
+                particleCount: 100,
+                spread: 100,
+                origin: { y: 0.5 }
+            });
+        }
+
+        function showCertificateScreen() {
+            document.getElementById('certPlayerName').textContent = playerName;
+            document.getElementById('certScore').textContent = `${score} / 1000`;
+            document.getElementById('certCorrect').textContent = `${correctAnswersCount} dari 50`;
+
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
+            document.getElementById('certDate').textContent = `Tanggal penyelesaian: ${dateStr}`;
+
+            showScreen('screenCertificate');
+
+            confetti({
+                particleCount: 50,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+        }
+
+        function restartGame() {
+            showScreen('screenWelcome');
+        }
+
+        // Initialize Speech Audio Context on first interaction
+        document.addEventListener('click', () => {
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }, { once: true });
+    </script>
+</body>
+</html>
